@@ -64,7 +64,12 @@ trait ConsumerTrait
         // Set the configuration to use for subscribed/assigned topics
         //$this->setDefaultTopicConf();
 
-        $this->kafka = new AvroConsumer($this->conf, $this->schemaRegistryUrl, ['register_missing_schemas' => false]);
+        $this->kafka = new AvroConsumer(
+            $this->conf,
+            $this->schemaRegistryUrl,
+            $this->schemaRegistryAuthKey,
+            ['register_missing_schemas' => false]
+        );
 
 
         $this->kafka->subscribe(TopicSuffix::getSuffixedTopic($topics));

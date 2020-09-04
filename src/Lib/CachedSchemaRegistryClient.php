@@ -14,6 +14,8 @@ use AvroSchema;
  */
 class CachedSchemaRegistryClient
 {
+    private $authKey;
+
     private $maxSchemasPerSubject;
 
     private $client;
@@ -36,8 +38,9 @@ class CachedSchemaRegistryClient
      * @param string $url
      * @param int    $maxSchemasPerSubject
      */
-    public function __construct($url, $maxSchemasPerSubject = 1000)
+    public function __construct(string $url, ?string $authKey = null, $maxSchemasPerSubject = 1000)
     {
+        $this->authKey = $authKey;
         $this->maxSchemasPerSubject = $maxSchemasPerSubject;
 
         $this->client = new Client(['base_uri' => $url]);
@@ -197,6 +200,10 @@ class CachedSchemaRegistryClient
 
         if ($body) {
             $headers['Content-Type'] = 'application/vnd.schemaregistry.v1+json';
+        }
+
+        if($this->authKey) {
+            $headers['Authorization'] = 'Basic ' . $this->authKey;
         }
 
         switch ($method) {

@@ -114,7 +114,7 @@ trait KafkaTrait
      */
     protected function prepareSchema()
     {
-        $cachedSchema = new CachedSchemaRegistryClient($this->schemaRegistryUrl);
+        $cachedSchema = new CachedSchemaRegistryClient($this->schemaRegistryUrl, $this->schemaRegistryAuthKey);
         $this->schema = $cachedSchema->getBySubjectAndVersion($this->schemaSubject, $this->schemaVersion);
         if ($this->keySchemaSubject !== null) {
             $this->keySchema = $cachedSchema->getBySubjectAndVersion($this->keySchemaSubject, $this->keySchemaVersion);

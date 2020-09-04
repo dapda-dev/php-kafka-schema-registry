@@ -16,13 +16,13 @@ class AvroProducer
     private $defaultKeySchema;
     private $defaultValueSchema;
 
-    public function __construct(ProducerTopic $producer, $registryUrl, $defaultKeySchema = null, $defaultValueSchema = null, $options = [])
+    public function __construct(ProducerTopic $producer, $registryUrl, $registryAuthKey = null, $defaultKeySchema = null, $defaultValueSchema = null, $options = [])
     {
         $this->producer           = $producer;
         $this->defaultKeySchema   = $defaultKeySchema;
         $this->defaultValueSchema = $defaultValueSchema;
 
-        $this->serializer = new MessageSerializer(new CachedSchemaRegistryClient($registryUrl), $options);
+        $this->serializer = new MessageSerializer(new CachedSchemaRegistryClient($registryUrl, $registryAuthKey), $options);
     }
 
     public function produce($partition, $msgflags, $value, $key = null, $keySchema = null, $valueSchema = null, $format = null)

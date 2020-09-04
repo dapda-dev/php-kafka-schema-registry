@@ -57,7 +57,14 @@ trait ProducerTrait
 
         $this->kafka = new \RdKafka\Producer($this->conf);
 
-        $producer = new AvroProducer($this->kafka->newTopic(TopicSuffix::getSuffixedTopic($topic)), $this->schemaRegistryUrl, $this->keySchema, $this->schema, ['register_missing_schemas' => false]);
+        $producer = new AvroProducer(
+            $this->kafka->newTopic(TopicSuffix::getSuffixedTopic($topic)), 
+            $this->schemaRegistryUrl,
+            $this->schemaRegistryAuthKey,
+            $this->keySchema,
+            $this->schema, 
+            ['register_missing_schemas' => false]
+        );
 
         $start = microtime(true);
 

@@ -14,11 +14,11 @@ class AvroConsumer extends KafkaConsumer
     /** @var MessageSerializer */
     protected $serializer;
 
-    public function __construct(Conf $conf, $registryUrl, $options = [])
+    public function __construct(Conf $conf, $registryUrl, $registryAuthKey = null, $options = [])
     {
         parent::__construct($conf);
 
-        $this->serializer = new MessageSerializer(new CachedSchemaRegistryClient($registryUrl), $options);
+        $this->serializer = new MessageSerializer(new CachedSchemaRegistryClient($registryUrl, $registryAuthKey), $options);
     }
 
     /**
